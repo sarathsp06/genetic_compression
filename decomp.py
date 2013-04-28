@@ -52,29 +52,19 @@ def decompress(L,alist,blist):
          #               print L[i][j]
         return L
 Lred=load_file('redlayer')
-print len(Lred)
 Lblue=load_file('bluelayer')
-print len(Lblue)
 Lgreen=load_file('greenlayer')
-print len(Lgreen)
 LalistR=load_int('ared')
-print len(LalistR)
 LalistB=load_int('ablue')
-print len(LalistB)
 LalistG=load_int('agreen')
-print len(LalistR)
 LblistR=load_int('bred')
-print len(LblistR)
 LblistB=load_int('bblue')
-print len(LblistB)
 LblistG=load_int('bgreen')
-print len(LblistG)
+
+
 Lred=decompress(Lred,LalistR,LblistR)
-print len(Lred)
 Lblue=decompress(Lblue,LalistB,LblistB)
-print len(Lblue)
 Lgreen=decompress(Lgreen,LalistG,LblistG)
-print len(Lgreen)
 #system("del *.dat")
 
 

@@ -3,6 +3,7 @@ from os import system
 from PIL import Image
 from ctypes import c_int16
 from os import chdir,path
+
 def compress(L):  
     meanlist=[]
     malphalist=[]
@@ -10,9 +11,6 @@ def compress(L):
     qcount=0
     qlist=[]
     malpha=0
-#print len(L),"--",len(L[0]),"===",len(L[0][2])
-#print L[0][0],"\n------------------\n",L[63][63]
-    #print L[0][0]
     for i in range(64):
         for j in range(64):
             avg=float(sum(L[i][j]))/16
@@ -32,10 +30,7 @@ def compress(L):
                     L[i][j][k]=1
     malphalist.append(malpha)
     qlist.append(qcount)
-    #print malphalist[1]
-    #for i in range(64):
-     #   for j in range(64):
-      #      print L[i][j]
+    
     alist=[]
     blist=[]
     res=0
@@ -51,13 +46,12 @@ def compress(L):
             blist.append(round(res))
         else:
             blist.append(round(meanlist[i]))
-    #for i in range(4096):
-    print blist[0]
-    #print min(alist),max(alist)
-    #print min(blist),max(blist)
     return L,alist,blist
 
-
+"""---------------------------------------------------------------------------------------------------------------------------------------
+                                    Function to store the L into a file in compresed formie,byte by byte
+----------------------------------------------------------------------------------------------------------------------------------------
+"""
 def store(L,filename):
     compressed=[]
     f=open(filename+".dat",'w+b')
@@ -75,6 +69,10 @@ def store(L,filename):
             f.write(chr((int(s,2))))
     print len(compressed)
     f.close()
+"""-----------------------------------------------------------------------------------------------------------------
+                                                                            function to store set of integers as integers itself
+-----------------------------------------------------------------------------------------------------------------
+"""
 def storeint(L,filename):
     f=open(filename+".dat",'w+b')
     try:
@@ -106,27 +104,15 @@ B=[[[L[i][j][k][2] for k in range(16)]for i in range(64)] for j in range(64)]
 R,Ralist,Rblist=compress(R)
 G,Galist,Gblist=compress(G)
 B,Balist,Bblist=compress(B)
+
 storeint(Ralist,'ared')
 storeint(Rblist,'bred')
 storeint(Balist,'ablue')
 storeint(Bblist,'bblue')
 storeint(Galist,'agreen')
 storeint(Gblist,'bgreen')
-"""for i in range(64):
-    for j in range(64):
-        for k in range(16):
-         #   print [R[i][j][k],G[i][j][k],B[i][j][k]]
-            if k == 0:
-                img.putpixel((i*4+int(k/4),j*4+k%4),((R[i][j][k]<<7)+(G[i][j][k]<<6)+(B[i][j][k]<<5),int(Ralist[i*64+j]),int(Rblist[i*64+j])))
-            elif k == 1:
-                img.putpixel((i*4+int(k/4),j*4+k%4),((R[i][j][k]<<7)+(G[i][j][k]<<6)+(B[i][j][k]<<5),int(Galist[i*64+j]),int(Gblist[i*64+j])))
-            elif k == 2:
-                img.putpixel((i*4+int(k/4),j*4+k%4),((R[i][j][k]<<7)+(G[i][j][k]<<6)+(B[i][j][k]<<5),int(Balist[i*64+j]),int(Bblist[i*64+j])))
-            else:
-                img.putpixel((i*4+int(k/4),j*4+k%4),((R[i][j][k]<<7)+(G[i][j][k]<<6)+(B[i][j][k]<<5),0,0))
-img.save('compressed.gif')"""
+
 store(R,'redlayer')
 store(B,'bluelayer')
 store(G,'greenlayer')
 system("zip compressed.zip *.dat")
-system("move compressed.zip C:\Users\FarhanK\Desktop\Project\Result")
